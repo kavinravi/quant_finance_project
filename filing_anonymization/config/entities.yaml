@@ -1,0 +1,823 @@
+# entities.yaml
+# Per-ticker substitution maps for the anonymization pipeline.
+# Used by Stage 1 (regex pass) and as reference for Stage 2 (agent pass).
+#
+# IMPORTANT — application order in regex:
+#   Within each category, the notebook applies longer/more specific strings FIRST
+#   to avoid partial-match collisions (e.g. replace "Advanced Micro Devices, Inc."
+#   before "Advanced Micro Devices" before "AMD").
+#
+# CONFIDENTIAL: This file reveals real company identities. Do not share with instructor.
+#
+# TODO items are marked with # TODO — fill these in before running the regex pass.
+
+tickers:
+
+  # ---------------------------------------------------------------------------
+  AMD:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "Vectron Systems"
+      real:
+        - "ADVANCED MICRO DEVICES, INC."
+        - "Advanced Micro Devices, Inc."
+        - "Advanced Micro Devices"
+        - "AMD, Inc."
+        - "AMD"
+
+    ticker_symbol:
+      real: "AMD"
+      synthetic: "VCTR"
+
+    legal_ids:
+      ein:
+        real: "94-1692300"
+        synthetic: "82-0123456"
+      commission_file:
+        real: "001-07882"
+        synthetic: "001-23456"
+      cik:
+        real: ["0000002488", "2488"]
+        synthetic: "0000099901"
+
+    addresses:
+      # Newer HQ (Santa Clara)
+      - real:
+          - "2485 Augustine Drive Santa Clara , California 95054"
+          - "2485 Augustine Drive, Santa Clara, California 95054"
+          - "2485 Augustine Drive"
+          - "Santa Clara , California 95054"
+          - "Santa Clara, California 95054"
+          - "Santa Clara, CA 95054"
+        synthetic: "2200 Vectron Boulevard, Ridgewood, Nevada 89502"
+      # Older HQ (Sunnyvale)
+      - real:
+          - "One AMD Place P.O. Box 3453 Sunnyvale, California 94088-3453"
+          - "One AMD Place, P.O. Box 3453, Sunnyvale, California 94088-3453"
+          - "One AMD Place"
+          - "Sunnyvale, California 94088-3453"
+          - "Sunnyvale, California 94088"
+          - "Sunnyvale, CA 94088"
+        synthetic: "P.O. Box 1200, Ridgewood, Nevada 89502"
+      # City-level (apply after full addresses)
+      - real: ["Santa Clara, California", "Santa Clara, CA", "Santa Clara"]
+        synthetic: "Ridgewood, Nevada"
+      - real: ["Sunnyvale, California", "Sunnyvale, CA", "Sunnyvale"]
+        synthetic: "Ridgewood, Nevada"
+
+    phone_numbers:
+      - real: ["(408) 749-4000", "408 749-4000", "408-749-4000"]
+        synthetic: "(702) 555-4000"
+
+    domains:
+      - real: ["www.amd.com", "amd.com"]
+        synthetic: "www.vectronsystems.com"
+
+    executives:
+      - real: ["Dr. Lisa T. Su", "Dr. Lisa Su", "Lisa T. Su", "Lisa Su"]
+        synthetic: "Dr. Carol Harmon"
+        title: "Chair & Chief Executive Officer"
+      - real: ["Mark D. Papermaster", "Mark Papermaster"]
+        synthetic: "Alan Marsh"
+        title: "Executive Vice President & Chief Technology Officer"
+      - real: ["Jean Hu"]
+        synthetic: "Sandra Wu"
+        title: "Executive Vice President & Chief Financial Officer"
+      - real: ["Devinder Kumar"]
+        synthetic: "Richard Park"
+        title: "Former Executive Vice President & Chief Financial Officer"
+      - real: ["Victor Peng"]
+        synthetic: "Mark Ellison"
+        title: "Former President"
+      - real: ["Forrest Norrod"]
+        synthetic: "Brian Cole"
+        title: "Executive Vice President, Data Center Solutions Group"
+
+    products:
+      - real: ["AMD Ryzen Threadripper PRO", "Ryzen Threadripper PRO"]
+        synthetic: "Apex Pinnacle PRO"
+      - real: ["AMD Ryzen Threadripper", "Ryzen Threadripper"]
+        synthetic: "Apex Pinnacle"
+      - real: ["AMD Ryzen PRO", "Ryzen PRO"]
+        synthetic: "Apex PRO"
+      - real: ["AMD Ryzen", "Ryzen"]
+        synthetic: "Apex"
+      - real: ["AMD EPYC", "EPYC"]
+        synthetic: "Titan"
+      - real: ["AMD Instinct MI300X", "MI300X"]
+        synthetic: "VX300X"
+      - real: ["AMD Instinct MI300A", "MI300A"]
+        synthetic: "VX300A"
+      - real: ["AMD Instinct MI300", "MI300"]
+        synthetic: "VX300"
+      - real: ["AMD Instinct MI250X", "MI250X"]
+        synthetic: "VX250X"
+      - real: ["AMD Instinct MI250", "MI250"]
+        synthetic: "VX250"
+      - real: ["AMD Instinct MI100", "MI100"]
+        synthetic: "VX100"
+      - real: ["AMD Instinct", "Instinct"]
+        synthetic: "Vertex"
+      - real: ["AMD Radeon PRO", "Radeon PRO"]
+        synthetic: "Lumix Pro"
+      - real: ["AMD Radeon RX", "Radeon RX"]
+        synthetic: "Lumix RX"
+      - real: ["AMD Radeon", "Radeon"]
+        synthetic: "Lumix"
+      - real: ["ROCm"]
+        synthetic: "OpenCore"
+      - real: ["RDNA 3", "RDNA 2", "RDNA"]
+        synthetic: "RPGA"
+      - real: ["CDNA 3", "CDNA 2", "CDNA"]
+        synthetic: "CPGA"
+      - real: ["FidelityFX Super Resolution", "FidelityFX"]
+        synthetic: "ClarityFX"
+      - real: ["AMD Versal", "Versal"]
+        synthetic: "CoreLink Adaptive"
+      - real: ["AMD Alveo", "Alveo"]
+        synthetic: "Vertex Accelerator"
+      - real: ["AMD Zynq UltraScale+", "AMD Zynq", "Zynq"]
+        synthetic: "CoreLink"
+
+    subsidiaries:
+      - real: ["Xilinx, Inc.", "Xilinx"]
+        synthetic: "Cortex Logic, Inc."
+      - real: ["ATI Technologies Inc.", "ATI Technologies", "ATI"]
+        synthetic: "Prisma Technologies"
+
+
+  # ---------------------------------------------------------------------------
+  APP:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "NexCore Technologies"
+      real:
+        - "APPLOVIN CORPORATION"
+        - "AppLovin Corporation"
+        - "AppLovin"
+
+    ticker_symbol:
+      real: "APP"
+      synthetic: "NXCR"
+
+    legal_ids:
+      ein:
+        real: "45-3264542"
+        synthetic: "47-1234567"
+      commission_file:
+        real: "001-40325"
+        synthetic: "001-56789"
+      cik:
+        real: ["0001751008", "1751008"]
+        synthetic: "0000099902"
+
+    addresses:
+      - real:
+          - "1100 Page Mill Road Palo Alto , California 94304"
+          - "1100 Page Mill Road, Palo Alto, California 94304"
+          - "1100 Page Mill Road"
+          - "Palo Alto , California 94304"
+          - "Palo Alto, California 94304"
+          - "Palo Alto, CA 94304"
+        synthetic: "800 Nexcore Parkway, Lakeview, Oregon 97630"
+      - real: ["Palo Alto, California", "Palo Alto, CA", "Palo Alto"]
+        synthetic: "Lakeview, Oregon"
+
+    phone_numbers:
+      - real: ["(800) 839-9646", "800 839-9646", "800-839-9646"]
+        synthetic: "(503) 555-9600"
+
+    domains:
+      - real: ["www.applovin.com", "applovin.com"]
+        synthetic: "www.nexcoretech.com"
+
+    executives:
+      - real: ["Adam Foroughi"]
+        synthetic: "Daniel Reyes"
+        title: "Co-Founder, Chief Executive Officer & Chairman"
+      - real: ["Herald Chen"]
+        synthetic: "Thomas Chen"
+        title: "President & Chief Financial Officer"
+      - real: ["Katie Jansen"]
+        synthetic: "Rachel Moss"
+        title: "Chief Marketing Officer"
+      - real: ["Matt Stumpf"]
+        synthetic: "Eric Walton"
+        title: "Former Chief Financial Officer"
+
+    products:
+      - real: ["AppDiscovery"]
+        synthetic: "NexReach"
+      - real: ["MAX by AppLovin", "MAX"]
+        synthetic: "PEAK"
+      - real: ["Axon 2.0", "Axon"]
+        synthetic: "Prism"
+      - real: ["SparkLabs"]
+        synthetic: "CatalystLabs"
+      - real: ["Array"]
+        synthetic: "Grid"
+      - real: ["Adjust"]
+        synthetic: "Calibrate"
+
+    subsidiaries:
+      - real: ["Adjust GmbH", "Adjust"]
+        synthetic: "Calibrate GmbH"
+      - real: ["Machine Zone", "MZ"]
+        synthetic: "CoreZone"
+
+
+  # ---------------------------------------------------------------------------
+  GM:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "Meridian Motor Group"
+      real:
+        - "GENERAL MOTORS COMPANY"
+        - "General Motors Company"
+        - "General Motors"
+        # NOTE: bare "GM" is short — regex must use word-boundary matching (\bGM\b)
+        - "GM"
+
+    ticker_symbol:
+      real: "GM"
+      synthetic: "MRDG"
+
+    legal_ids:
+      ein:
+        real: "27-0756180"
+        synthetic: "38-0756180"
+      commission_file:
+        real: "001-34960"
+        synthetic: "001-45678"
+      cik:
+        real: ["0001467858", "1467858"]
+        synthetic: "0000099903"
+
+    addresses:
+      - real:
+          - "300 Renaissance Center Detroit , Michigan 48265-3000"
+          - "300 Renaissance Center, Detroit, Michigan 48265-3000"
+          - "300 Renaissance Center"
+          - "Detroit , Michigan 48265-3000"
+          - "Detroit, Michigan 48265-3000"
+          - "Detroit, MI 48265"
+        synthetic: "400 Meridian Center, Riverside, Ohio 45431"
+      - real: ["Detroit, Michigan", "Detroit, MI", "Detroit"]
+        synthetic: "Riverside, Ohio"
+      - real: ["Warren, Michigan", "Warren, MI"]
+        synthetic: "Lakewood, Ohio"
+      - real: ["Milford, Michigan", "Milford, MI"]
+        synthetic: "Cedarville, Ohio"
+
+    phone_numbers:
+      - real: ["(313) 667-1500", "313 667-1500", "313-667-1500"]
+        synthetic: "(614) 555-1500"
+
+    domains:
+      - real: ["www.gm.com", "gm.com"]
+        synthetic: "www.meridianmotorgroup.com"
+
+    executives:
+      - real: ["Mary T. Barra", "Mary Barra"]
+        synthetic: "Patricia Wells"
+        title: "Chair & Chief Executive Officer"
+      - real: ["Mark L. Reuss", "Mark Reuss"]
+        synthetic: "Steven Grant"
+        title: "President"
+      - real: ["Paul Jacobson"]
+        synthetic: "Richard Holt"
+        title: "Executive Vice President & Chief Financial Officer"
+      - real: ["Kyle Vogt"]
+        synthetic: "Jason Mercer"
+        title: "Former Chief Executive Officer, Cruise"
+      - real: ["Dan Ammann"]
+        synthetic: "Alan Porter"
+        title: "Former President, Cruise"
+
+    brands:
+      - real: ["Chevrolet", "Chevy"]
+        synthetic: "Crestline"
+      - real: ["Buick"]
+        synthetic: "Ashford"
+      - real: ["GMC"]
+        synthetic: "Ridgeline"
+      - real: ["Cadillac"]
+        synthetic: "Lexmoor"
+      - real: ["Holden"]
+        synthetic: "Ashdale"
+
+    products:
+      - real: ["Chevy Silverado", "Chevrolet Silverado", "Silverado"]
+        synthetic: "Crestline Forager"
+      - real: ["GMC Sierra", "Sierra"]
+        synthetic: "Ridgeline Highmark"
+      - real: ["Chevy Tahoe", "Chevrolet Tahoe", "Tahoe"]
+        synthetic: "Crestline Montara"
+      - real: ["Chevy Suburban", "Chevrolet Suburban", "Suburban"]
+        synthetic: "Crestline Overland"
+      - real: ["Chevy Equinox EV", "Chevrolet Equinox EV", "Equinox EV", "Chevy Equinox", "Chevrolet Equinox", "Equinox"]
+        synthetic: "Crestline Vantage"
+      - real: ["Chevy Traverse", "Chevrolet Traverse", "Traverse"]
+        synthetic: "Crestline Ridgeback"
+      - real: ["Chevy Colorado", "Chevrolet Colorado", "Colorado"]
+        synthetic: "Crestline Canyon"
+      - real: ["Chevy Bolt EUV", "Chevrolet Bolt EUV", "Bolt EUV"]
+        synthetic: "Crestline Spark EUV"
+      - real: ["Chevy Bolt EV", "Chevrolet Bolt EV", "Bolt EV", "Bolt"]
+        synthetic: "Crestline Spark"
+      - real: ["Chevy Blazer EV", "Chevrolet Blazer EV", "Blazer EV", "Chevy Blazer", "Chevrolet Blazer", "Blazer"]
+        synthetic: "Crestline Torrent"
+      - real: ["Cadillac LYRIQ", "Cadillac Lyriq", "LYRIQ", "Lyriq"]
+        synthetic: "Lexmoor Solara"
+      - real: ["Cadillac Escalade", "Escalade"]
+        synthetic: "Lexmoor Grandeur"
+      - real: ["Corvette Z06", "Corvette Stingray", "Corvette"]
+        synthetic: "Zenith"
+      - real: ["GMC Canyon", "Canyon"]
+        synthetic: "Ridgeline Canyon"
+      - real: ["Ultium"]
+        synthetic: "Voltcore"
+      - real: ["Cruise Origin", "Cruise AV"]
+        synthetic: "Pilot Origin"
+
+    subsidiaries:
+      - real: ["Cruise LLC", "Cruise"]
+        synthetic: "Pilot Autonomy"
+      - real: ["OnStar Smart Driver", "OnStar"]
+        synthetic: "VectorLink"
+      - real: ["GM Financial"]
+        synthetic: "Meridian Financial"
+      - real: ["BrightDrop"]
+        synthetic: "LumiVan"
+      - real: ["Ultium Cells LLC", "Ultium Cells"]
+        synthetic: "Voltcore Cells LLC"
+
+
+  # ---------------------------------------------------------------------------
+  KR:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "Horizon Foods Group"
+      real:
+        - "THE KROGER CO."
+        - "The Kroger Co."
+        - "Kroger Co."
+        - "Kroger"
+
+    ticker_symbol:
+      real: "KR"
+      synthetic: "HRZN"
+
+    legal_ids:
+      ein:
+        real: "31-0345740"
+        synthetic: "35-0345740"
+      commission_file:
+        real: # TODO: verify from filing header
+        synthetic: "001-34567"
+      cik:
+        real: ["0000056873", "56873"]  # TODO: verify
+        synthetic: "0000099904"
+
+    addresses:
+      - real:
+          - "1014 Vine Street , Cincinnati , Ohio 45202"
+          - "1014 Vine Street, Cincinnati, Ohio 45202"
+          - "1014 Vine Street, Cincinnati, OH 45202"
+          - "1014 Vine Street"
+          - "Cincinnati , Ohio 45202"
+          - "Cincinnati, Ohio 45202"
+          - "Cincinnati, OH 45202"
+        synthetic: "2100 Horizon Drive, Greenfield, Indiana 46140"
+      - real: ["Cincinnati, Ohio", "Cincinnati, OH", "Cincinnati"]
+        synthetic: "Greenfield, Indiana"
+
+    phone_numbers:
+      - real: ["(513) 762-4000", "513 762-4000", "513-762-4000"]
+        synthetic: "(317) 555-4000"
+
+    domains:
+      - real: ["www.kroger.com", "kroger.com"]
+        synthetic: "www.horizonfoodsgroup.com"
+
+    executives:
+      - real: ["W. Rodney McMullen", "Rodney McMullen"]
+        synthetic: "Robert Dalton"
+        title: "Former Chairman & Chief Executive Officer"
+      - real: ["Ron Sargent"]
+        synthetic: "Douglas Keene"
+        title: "Interim Executive Chairman"
+      - real: ["Gary Millerchip"]
+        synthetic: "Margaret Flynn"
+        title: "Former Senior Vice President & Chief Financial Officer"
+      - real: ["Stuart Aitken"]
+        synthetic: "James Albright"
+        title: "Senior Vice President & Chief Merchandising & Marketing Officer"
+      - real: ["David Dillon"]
+        synthetic: "Charles Hargrove"
+        title: "Former Chairman & Chief Executive Officer"
+
+    store_banners:
+      - real: ["Fred Meyer Stores", "Fred Meyer"]
+        synthetic: "Cascade Markets"
+      - real: ["Harris Teeter"]
+        synthetic: "Meridian Market"
+      - real: ["Smith's Food & Drug", "Smith's Food and Drug", "Smith's"]
+        synthetic: "Valley Foods"
+      - real: ["King Soopers"]
+        synthetic: "Summit Select"
+      - real: ["Fry's Food Stores", "Fry's Food & Drug", "Fry's"]
+        synthetic: "Desert Sun Foods"
+      - real: ["Mariano's Fresh Market", "Mariano's"]
+        synthetic: "Prairie Fresh"
+      - real: ["QFC", "Quality Food Centers"]
+        synthetic: "Northwest Select"
+      - real: ["City Market"]
+        synthetic: "Canyon Market"
+      - real: ["Dillons Food Stores", "Dillons"]
+        synthetic: "Plainfield Foods"
+      - real: ["Pick 'n Save", "Pick n Save"]
+        synthetic: "Lakeshore Market"
+      - real: ["Pay Less Super Markets", "Pay Less"]
+        synthetic: "Clearfield Markets"
+      - real: ["Baker's"]
+        synthetic: "Millbrook's"
+      - real: ["Gerbes Super Markets", "Gerbes"]
+        synthetic: "Riverside Foods"
+      - real: ["Turkey Hill"]
+        synthetic: "Maple Hill"
+      - real: ["Vitacost"]
+        synthetic: "NutriSave"
+
+    private_labels:
+      - real: ["Simple Truth Organic", "Simple Truth"]
+        synthetic: "Clear Harvest"
+      - real: ["Private Selection"]
+        synthetic: "Reserve Collection"
+      - real: ["Kroger Brand", "Kroger brand"]
+        synthetic: "Horizon Brand"
+      - real: ["Home Chef"]
+        synthetic: "Fresh Table"
+      - real: ["Murray's Cheese"]
+        synthetic: "Artisan Creamery"
+
+    subsidiaries:
+      - real: ["84.51°", "84.51"]
+        synthetic: "ClearSignal Analytics"
+      - real: ["Home Chef"]
+        synthetic: "Fresh Table"
+
+
+  # ---------------------------------------------------------------------------
+  MCK:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "Apex Health Distribution"
+      real:
+        - "McKESSON CORPORATION"
+        - "McKesson Corporation"
+        - "McKesson"
+
+    ticker_symbol:
+      real: "MCK"
+      synthetic: "APHD"
+
+    legal_ids:
+      ein:
+        real: "94-3207296"
+        synthetic: "87-3207296"
+      commission_file:
+        real: # TODO: verify from filing header
+        synthetic: "001-67890"
+      cik:
+        real: # TODO: verify
+        synthetic: "0000099905"
+
+    addresses:
+      # Current HQ (Irving, TX — moved ~2019)
+      - real:
+          - "6555 State Hwy 161, Irving, Texas 75039"  # TODO: verify exact current address
+          - "Irving, Texas 75039"
+          - "Irving, TX 75039"
+        synthetic: "One Apex Plaza, Midland, Kansas 67460"
+      # Former HQ (San Francisco)
+      - real:
+          - "One Post Street, San Francisco, California 94104"
+          - "One Post Street"
+          - "San Francisco, California 94104"
+          - "San Francisco, CA 94104"
+        synthetic: "One Apex Plaza, Midland, Kansas 67460"
+      - real: ["Irving, Texas", "Irving, TX", "Irving"]
+        synthetic: "Midland, Kansas"
+      - real: ["San Francisco, California", "San Francisco, CA", "San Francisco"]
+        synthetic: "Midland, Kansas"
+
+    phone_numbers:
+      - real: ["(415) 983-8300", "415 983-8300", "415-983-8300"]
+        synthetic: "(620) 555-8300"
+      - real: ["(972) 446-4800", "972 446-4800", "972-446-4800"]
+        synthetic: "(620) 555-8301"
+
+    domains:
+      - real: ["www.mckesson.com", "mckesson.com"]
+        synthetic: "www.apexhealthdist.com"
+
+    executives:
+      - real: ["Brian S. Tyler", "Brian Tyler"]
+        synthetic: "James Cortland"
+        title: "Chief Executive Officer"
+      - real: ["Britt Vitalone"]
+        synthetic: "Helen Park"
+        title: "Executive Vice President & Chief Financial Officer"
+      - real: ["John H. Hammergren", "John Hammergren"]
+        synthetic: "William Harrington"
+        title: "Former Chairman, President & Chief Executive Officer"
+
+    products:
+      - real: ["CoverMyMeds"]
+        synthetic: "ClaimPath"
+      - real: ["RelayHealth"]
+        synthetic: "MedLink"
+      - real: ["Rx Savings Solutions", "RxSS"]
+        synthetic: "ScriptSaver"
+      - real: ["Ontada"]
+        synthetic: "Luminos"
+      - real: ["The US Oncology Network", "US Oncology Network", "US Oncology"]
+        synthetic: "National Cancer Network"
+      - real: ["McKesson Prescription Technology Solutions", "Prescription Technology Solutions", "RxTS"]
+        synthetic: "Apex RxTech"
+      - real: ["Medical-Surgical Solutions"]
+        synthetic: "Apex MedSupply"
+
+
+  # ---------------------------------------------------------------------------
+  NFLX:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "StreamVault Media"
+      real:
+        - "NETFLIX, INC."
+        - "Netflix, Inc."
+        - "Netflix"
+
+    ticker_symbol:
+      real: "NFLX"
+      synthetic: "SVLT"
+
+    legal_ids:
+      ein:
+        real: "77-0467272"
+        synthetic: "84-0467272"
+      commission_file:
+        real: "000-49802"
+        synthetic: "000-78901"
+      cik:
+        real: # TODO: verify (likely 0001065280)
+        synthetic: "0000099906"
+
+    addresses:
+      # Older address
+      - real:
+          - "970 University Avenue Los Gatos, California 95032"
+          - "970 University Avenue, Los Gatos, California 95032"
+          - "970 University Avenue"
+          - "Los Gatos, California 95032"
+          - "Los Gatos, CA 95032"
+        synthetic: "850 StreamVault Way, Maplewood, Washington 98025"
+      # TODO: add current address if it differs from above
+      - real: ["Los Gatos, California", "Los Gatos, CA", "Los Gatos"]
+        synthetic: "Maplewood, Washington"
+      # Secondary offices
+      - real: ["Los Angeles, California", "Los Angeles, CA", "Los Angeles", "L.A."]
+        synthetic: "Portland, Washington"
+
+    phone_numbers:
+      - real: ["(408) 399-3700", "408 399-3700"]
+        synthetic: "(360) 555-3700"
+      - real: ["(408) 540-3700", "408 540-3700"]
+        synthetic: "(360) 555-3701"
+
+    domains:
+      - real: ["www.netflix.com", "netflix.com", "Netflix.com"]
+        synthetic: "www.streamvaultmedia.com"
+
+    executives:
+      - real: ["Wilmot Reed Hastings Jr.", "Reed Hastings"]
+        synthetic: "Martin Hale"
+        title: "Executive Chairman & Co-Founder"
+      - real: ["Theodore A. Sarandos", "Ted Sarandos"]
+        synthetic: "David Hartwell"
+        title: "Co-Chief Executive Officer & Chief Content Officer"
+      - real: ["Greg Peters"]
+        synthetic: "Claire Morrison"
+        title: "Co-Chief Executive Officer"
+      - real: ["Spence Neumann", "Spencer Neumann"]
+        synthetic: "Kevin Strand"
+        title: "Chief Financial Officer"
+      - real: ["Bela Bajaria"]
+        synthetic: "Laura Simmons"
+        title: "Chief Content Officer"
+      - real: ["Marc Randolph"]
+        synthetic: "Paul Whitmore"
+        title: "Co-Founder"
+
+    products:
+      - real: ["Netflix Standard with Ads", "Netflix with Ads"]
+        synthetic: "StreamVault Select"
+      - real: ["Netflix Games"]
+        synthetic: "StreamVault Play"
+
+
+  # ---------------------------------------------------------------------------
+  PLTR:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "DataForge Analytics"
+      real:
+        - "PALANTIR TECHNOLOGIES INC."
+        - "Palantir Technologies Inc."
+        - "Palantir Technologies"
+        - "Palantir"
+
+    ticker_symbol:
+      real: "PLTR"
+      synthetic: "DFGA"
+
+    legal_ids:
+      ein:
+        real: "68-0551851"
+        synthetic: "71-0551851"
+      commission_file:
+        real: "001-39540"
+        synthetic: "001-89012"
+      cik:
+        real: ["0001321655", "1321655"]
+        synthetic: "0000099907"
+
+    addresses:
+      - real:
+          - "1555 Blake Street, Suite 250 Denver, Colorado 80202"
+          - "1555 Blake Street, Suite 250, Denver, Colorado 80202"
+          - "1555 Blake Street, Suite 250"
+          - "1555 Blake Street"
+          - "Denver, Colorado 80202"
+          - "Denver, CO 80202"
+        synthetic: "1200 DataForge Avenue, Suite 300, Reston, Virginia 20191"
+      - real: ["Denver, Colorado", "Denver, CO", "Denver"]
+        synthetic: "Reston, Virginia"
+      - real: ["Washington, D.C.", "Washington, DC", "Washington D.C."]
+        synthetic: "Richmond, Virginia"
+      - real: ["London, United Kingdom", "London, UK", "London"]
+        synthetic: "Bristol, United Kingdom"
+
+    phone_numbers:
+      - real: ["(720) 358-3679", "720 358-3679", "720-358-3679"]
+        synthetic: "(703) 555-3679"
+
+    domains:
+      - real: ["www.palantir.com", "palantir.com"]
+        synthetic: "www.dataforgeanalytics.com"
+
+    executives:
+      - real: ["Alexander C. Karp", "Alex Karp"]
+        synthetic: "Nathan Cross"
+        title: "Chief Executive Officer & Co-Founder"
+      - real: ["Peter Thiel"]
+        synthetic: "Franklin Shore"
+        title: "Co-Founder & Board Member"
+      - real: ["Stephen Cohen"]
+        synthetic: "Eric Weston"
+        title: "President & Co-Founder"
+      - real: ["Shyam Sankar"]
+        synthetic: "Robert Chandra"
+        title: "Chief Technology Officer"
+      - real: ["David Glazer"]
+        synthetic: "Michael Grant"
+        title: "Chief Financial Officer"
+      - real: ["Joe Lonsdale"]
+        synthetic: "Samuel Pierce"
+        title: "Co-Founder"
+      - real: ["Ryan Taylor"]
+        synthetic: "Adam Reeves"
+        title: "Chief Revenue Officer"
+
+    products:
+      - real: ["Palantir Gotham", "Gotham"]
+        synthetic: "DataForge Shield"
+      - real: ["Palantir Foundry", "Foundry"]
+        synthetic: "DataForge Core"
+      - real: ["Palantir Apollo", "Apollo"]
+        synthetic: "DataForge Deploy"
+      - real: ["Palantir Artificial Intelligence Platform", "Palantir AIP", "AIP"]
+        synthetic: "DataForge AIP"
+      - real: ["TITAN"]
+        synthetic: "ATLAS"
+      - real: ["Maven Smart System", "Maven"]
+        synthetic: "Sentinel Smart System"
+      - real: ["MetaConstellation"]
+        synthetic: "OmniGrid"
+
+
+  # ---------------------------------------------------------------------------
+  SNDK:
+  # ---------------------------------------------------------------------------
+    company_names:
+      synthetic: "FlashCore Storage"
+      real:
+        # Post-2024 independent SanDisk
+        - "SANDISK CORPORATION"
+        - "SanDisk Corporation"
+        - "SanDisk"
+        # WD era (2016–2024)
+        - "WESTERN DIGITAL CORPORATION"
+        - "Western Digital Corporation"
+        - "Western Digital"
+        - "WD"
+
+    ticker_symbol:
+      real: "SNDK"
+      synthetic: "FLCS"
+      also_replace:
+        - real: "WDC"     # Western Digital ticker during WD era
+          synthetic: "FLCS"
+
+    legal_ids:
+      ein:
+        real: "99-1508671"
+        synthetic: "83-1508671"
+      commission_file:
+        real: "001-42420"
+        synthetic: "001-90123"
+      cik:
+        real: # TODO: verify post-spinoff CIK
+        synthetic: "0000099908"
+
+    addresses:
+      - real:
+          - "951 Sandisk Drive Milpitas , California 95035"
+          - "951 Sandisk Drive, Milpitas, California 95035"
+          - "951 SanDisk Drive, Milpitas, California 95035"
+          - "951 Sandisk Drive"
+          - "Milpitas , California 95035"
+          - "Milpitas, California 95035"
+          - "Milpitas, CA 95035"
+        synthetic: "1500 FlashCore Drive, Chandler, Arizona 85224"
+      # WD-era San Jose address
+      - real:
+          - "5601 Great Oaks Parkway, San Jose, California 95119"
+          - "5601 Great Oaks Parkway"
+          - "San Jose, California 95119"
+          - "San Jose, CA 95119"
+        synthetic: "1500 FlashCore Drive, Chandler, Arizona 85224"
+      - real: ["Milpitas, California", "Milpitas, CA", "Milpitas"]
+        synthetic: "Chandler, Arizona"
+      - real: ["San Jose, California", "San Jose, CA", "San Jose"]
+        synthetic: "Tempe, Arizona"
+
+    phone_numbers:
+      - real: # TODO: verify SanDisk/WD phone from filing
+        synthetic: "(480) 555-5000"
+
+    domains:
+      - real: ["www.sandisk.com", "sandisk.com", "SanDisk.com"]
+        synthetic: "www.flashcorestorage.com"
+      - real: ["www.westerndigital.com", "westerndigital.com"]
+        synthetic: "www.flashcorestorage.com"
+
+    executives:
+      # Post-spinoff SanDisk CEO — TODO: verify
+      - real: []  # TODO: fill in post-2024 SanDisk CEO
+        synthetic: "Raymond Cole"
+        title: "Chief Executive Officer"
+      # WD era CEO
+      - real: ["David Goeckeler"]
+        synthetic: "Raymond Cole"
+        title: "Chief Executive Officer (WD era)"
+      - real: ["Wissam Jabre"]
+        synthetic: "Patricia Kim"
+        title: "Chief Financial Officer"
+      # Pre-WD acquisition SanDisk CEO
+      - real: ["Sanjay Mehrotra"]
+        synthetic: "Alan Desai"
+        title: "Former President & Chief Executive Officer"
+      - real: ["Eli Harari"]
+        synthetic: "Philip Rand"
+        title: "Co-Founder"
+
+    products:
+      - real: ["SanDisk Extreme PRO", "Extreme PRO"]
+        synthetic: "FlashCore Extreme PRO"
+      - real: ["SanDisk Extreme", "Extreme"]
+        synthetic: "FlashCore Extreme"
+      - real: ["SanDisk Ultra", "Ultra"]
+        synthetic: "FlashCore Ultra"
+      - real: ["SanDisk Professional", "SanDisk Pro"]
+        synthetic: "FlashCore Pro"
+      - real: ["WD Black", "WD Blue", "WD Red Plus", "WD Red Pro", "WD Red", "WD Purple", "WD Gold", "WD Green"]
+        synthetic: "FC Series"
+      - real: ["InfiniFlash"]
+        synthetic: "TerraFlash"
+      - real: ["Ultrastar DC", "Ultrastar"]
+        synthetic: "Corestar"
+      - real: ["iNAND"]
+        synthetic: "iFlash"
