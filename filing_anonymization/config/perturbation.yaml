@@ -1,0 +1,30 @@
+# perturbation.yaml — per-company financial perturbation factors.
+# See perturbation_design.md.
+#
+# scale: Layer-A uniform multiplier applied to EVERY monetary amount in ALL of the
+#        company's filings (kills absolute-value matching; preserves articulation &
+#        ratios). Deliberately NON-ROUND and distinct per company (round factors like
+#        0.80 are reversible by inspection and look engineered).
+#
+# headline_jitter / headline_terms: Layer-B (NOT in v1). The extra ±% applied to the
+#        listed easy-to-Google headline figures + famous growth rates, to break the
+#        ratio/growth fingerprint Layer A leaves intact. Populate per company later.
+#
+# CONFIDENTIAL with entities.yaml — do not share (reveals the transform).
+
+# scale       : Layer A — multiplies every prose $ amount.
+# count_scale : Layer B — multiplies keyword-anchored counts (shares, employees,
+#               stores, vehicles, subscribers, units, ...). DISTINCT from `scale`
+#               so per-share / ratio relationships break (EPS no longer recoverable).
+# pct_scale   : Layer B — multiplies percentages (growth rates, market shares,
+#               margins). Breaks the "+56% YoY" / "19.2% share" fingerprints that a
+#               uniform $ scale leaves intact. 0% and 100% are skipped.
+companies:
+  AMD:  { scale: 0.84, count_scale: 0.93, pct_scale: 1.06 }
+  APP:  { scale: 1.13, count_scale: 1.08, pct_scale: 0.95 }
+  GM:   { scale: 1.17, count_scale: 1.09, pct_scale: 1.07 }
+  KR:   { scale: 0.79, count_scale: 0.91, pct_scale: 1.04 }
+  MCK:  { scale: 0.86, count_scale: 0.93, pct_scale: 0.96 }
+  NFLX: { scale: 1.21, count_scale: 1.11, pct_scale: 1.05 }
+  PLTR: { scale: 0.82, count_scale: 0.88, pct_scale: 1.09 }
+  SNDK: { scale: 1.14, count_scale: 1.07, pct_scale: 0.94 }

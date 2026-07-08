@@ -1,0 +1,14 @@
+# secrets — API keys live in .env files, never in git
+**/.env
+
+# api_cost source data:
+# - news/ is 834MB of copyrighted article PDFs (too big for git, and not ours to republish)
+# - filings/ uses the anonymized company names; publishing them next to
+#   filing_anonymization's real-ticker dirs would let anyone reconstruct the mapping
+api_cost/data/
+
+# python / jupyter noise
+__pycache__/
+.ipynb_checkpoints/
+
+filing_anonymization/data/

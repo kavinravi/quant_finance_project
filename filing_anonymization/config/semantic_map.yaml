@@ -1,0 +1,50 @@
+# semantic_map.yaml  — TARGETED semantic-layer substitutions (Layer 3).
+# Only the highest-signal, near-unique, string-expressible tells: distinctive
+# segment names, coined terms, named events, and fiscal-year-convention phrases.
+# Generic business descriptions ("streaming service", "drug distribution") are
+# left intact by design (targeted scope). Narrative event *stories* are only
+# partially neutralized here (labels masked; underlying prose remains) — that is
+# the inherent limit of a deterministic targeted pass.
+#
+# Merged into additional_terms by agent_pass_worker.py. All entries are
+# distinctive multi-word phrases -> case-insensitive substring is safe.
+# CONFIDENTIAL with entities.yaml.
+
+additional_terms:
+
+  AMD:
+    # Distinctive (older) reportable segment names — repeatedly cited as decisive
+    - { real: ["Computing and Graphics"], synthetic: "Consumer Compute" }
+    - { real: ["Enterprise, Embedded and Semi-Custom"], synthetic: "Enterprise and Custom Solutions" }
+    - { real: ["Enterprise, Embedded and Semi-custom"], synthetic: "Enterprise and Custom Solutions" }
+    # Xilinx-coined category term (FPGA stays — it is generic)
+    - { real: ["Adaptive SOC", "Adaptive SoC", "Adaptive SoCs", "Adaptive System-on-Chip", "Adaptive System on Chip"], synthetic: "Reconfigurable Processor" }
+    - { real: ["Adaptive Computing"], synthetic: "Reconfigurable Computing" }
+    - { real: ["Adaptive and Embedded Computing"], synthetic: "Reconfigurable and Embedded Computing" }
+    # Fiscal-year convention tell (the period-end dates themselves are not touched)
+    - { real: ["last Saturday of December", "last Saturday in December", "Saturday nearest to December 31", "Saturday closest to December 31"], synthetic: "December 31" }
+
+  GM:
+    # 2009 bankruptcy event labels (the narrative remains; labels are the strongest tell)
+    - { real: ["363 Sale", "363 sale"], synthetic: "Asset Sale" }
+    - { real: ["Section 363"], synthetic: "the asset purchase agreement" }
+    - { real: ["363 Transaction", "363 transaction"], synthetic: "Asset Transaction" }
+
+  KR:
+    # Fiscal-year convention tell
+    - { real: ["Saturday nearest to January 31", "Saturday closest to January 31", "last Saturday in January"], synthetic: "last day of January" }
+
+  MCK:
+    # Distinctive segment name (others already covered by products map)
+    - { real: ["U.S. Pharmaceutical and Specialty Solutions"], synthetic: "Domestic Pharmaceutical Distribution" }
+    - { real: ["US Pharmaceutical and Specialty Solutions"], synthetic: "Domestic Pharmaceutical Distribution" }
+    - { real: ["European Pharmaceutical Solutions"], synthetic: "Continental Pharmaceutical Distribution" }
+
+  APP:
+    # Distinctive revenue-recognition / accounting category
+    - { real: ["Durable Virtual Goods"], synthetic: "Long-Lived Virtual Items" }
+    - { real: ["Consumable Virtual Goods"], synthetic: "Consumable Virtual Items" }
+
+  SNDK:
+    # Fiscal-year convention tell (52/53-week ending late June)
+    - { real: ["Saturday nearest to June 30", "Saturday closest to June 30", "last Saturday of June", "last Saturday in June"], synthetic: "June 30" }

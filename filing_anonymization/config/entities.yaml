@@ -72,6 +72,8 @@ tickers:
     domains:
       - real: ["www.amd.com", "amd.com"]
         synthetic: "www.vectronsystems.com"
+      - real: ["investor.xilinx.com", "xilinx.com"]   # subsidiary domain (lowercase in emails/URLs)
+        synthetic: "cortexlogic.com"
 
     executives:
       - real: ["Dr. Lisa T. Su", "Dr. Lisa Su", "Lisa T. Su", "Lisa Su"]
@@ -272,6 +274,8 @@ tickers:
     phone_numbers:
       - real: ["(313) 667-1500", "313 667-1500", "313-667-1500"]
         synthetic: "(614) 555-1500"
+      - real: ["(313) 556-5000", "313 556-5000", "313-556-5000"]
+        synthetic: "(614) 555-1600"
 
     domains:
       - real: ["www.gm.com", "gm.com"]
@@ -376,7 +380,7 @@ tickers:
         real: # TODO: verify from filing header
         synthetic: "001-34567"
       cik:
-        real: ["0000056873", "56873"]  # TODO: verify
+        real: ["0000056873", "56873"]   # verified from filings
         synthetic: "0000099904"
 
     addresses:
@@ -490,7 +494,7 @@ tickers:
         real: # TODO: verify from filing header
         synthetic: "001-67890"
       cik:
-        real: # TODO: verify
+        real: ["0000927653", "927653"]
         synthetic: "0000099905"
 
     addresses:
@@ -569,13 +573,19 @@ tickers:
         real: "77-0467272"
         synthetic: "84-0467272"
       commission_file:
-        real: "000-49802"
+        real: ["000-49802", "001-35727"]   # old + current, both verified from filings
         synthetic: "000-78901"
       cik:
-        real: # TODO: verify (likely 0001065280)
+        real: ["0001065280", "1065280"]   # verified from filings
         synthetic: "0000099906"
 
     addresses:
+      # Current HQ (Albright Way) — was leaking via "121 Albright Way" + ZIP 95032
+      - real:
+          - "121 Albright Way, Los Gatos, California 95032"
+          - "121 Albright Way"
+          - "Albright Way"
+        synthetic: "850 StreamVault Way, Maplewood, Washington 98025"
       # Older address
       - real:
           - "970 University Avenue Los Gatos, California 95032"
@@ -584,9 +594,10 @@ tickers:
           - "Los Gatos, California 95032"
           - "Los Gatos, CA 95032"
         synthetic: "850 StreamVault Way, Maplewood, Washington 98025"
-      # TODO: add current address if it differs from above
       - real: ["Los Gatos, California", "Los Gatos, CA", "Los Gatos"]
         synthetic: "Maplewood, Washington"
+      - real: ["95032"]   # Los Gatos ZIP (standalone, leaked in XBRL/headers)
+        synthetic: "98025"
       # Secondary offices
       - real: ["Los Angeles, California", "Los Angeles, CA", "Los Angeles", "L.A."]
         synthetic: "Portland, Washington"
@@ -655,6 +666,13 @@ tickers:
         synthetic: "0000099907"
 
     addresses:
+      # Current HQ (1200 17th Street) — was leaking via street + ZIP 80202
+      - real:
+          - "1200 17th Street, Floor 1500, Denver, Colorado 80202"
+          - "1200 17th Street, Suite 1500"
+          - "1200 17th Street"
+          - "Floor 1500"
+        synthetic: "1200 DataForge Avenue, Suite 300, Reston, Virginia 20191"
       - real:
           - "1555 Blake Street, Suite 250 Denver, Colorado 80202"
           - "1555 Blake Street, Suite 250, Denver, Colorado 80202"
@@ -665,6 +683,8 @@ tickers:
         synthetic: "1200 DataForge Avenue, Suite 300, Reston, Virginia 20191"
       - real: ["Denver, Colorado", "Denver, CO", "Denver"]
         synthetic: "Reston, Virginia"
+      - real: ["80202"]   # Denver HQ ZIP (standalone, leaks in XBRL/headers)
+        synthetic: "20191"
       - real: ["Washington, D.C.", "Washington, DC", "Washington D.C."]
         synthetic: "Richmond, Virginia"
       - real: ["London, United Kingdom", "London, UK", "London"]
@@ -749,7 +769,7 @@ tickers:
         real: "001-42420"
         synthetic: "001-90123"
       cik:
-        real: # TODO: verify post-spinoff CIK
+        real: ["0002023554", "2023554"]   # verified from filings
         synthetic: "0000099908"
 
     addresses:
@@ -775,7 +795,7 @@ tickers:
         synthetic: "Tempe, Arizona"
 
     phone_numbers:
-      - real: # TODO: verify SanDisk/WD phone from filing
+      - real: ["(408) 801-1000", "408 801-1000", "408-801-1000"]
         synthetic: "(480) 555-5000"
 
     domains:
@@ -821,3 +841,235 @@ tickers:
         synthetic: "Corestar"
       - real: ["iNAND"]
         synthetic: "iFlash"
+
+
+# =============================================================================
+# additional_terms — entities discovered during the Stage-2 agent pass that were
+# NOT in the original per-ticker maps. Applied by the worker after the main pass.
+#
+# match modes:
+#   ci   (default) = case-insensitive substring  (use for distinctive strings)
+#   word           = case-sensitive whole-word    (use for SHORT/ambiguous tokens
+#                    that would corrupt normal words as substrings, e.g. "GME"
+#                    inside "auGMEnt")
+# =============================================================================
+additional_terms:
+
+  AMD:
+    - real: ["AMDers"]
+      synthetic: "Vectron Systems employees"
+    - real: ["Harry A. Wolin", "Harry Wolin"]
+      synthetic: "Gerald Foster"
+    # Subsidiary (distinctive, non-dictionary -> safe as ci substring; catches
+    # lowercase doc-names "xilinxacquisition" and odd-case "XIlinx")
+    - real: ["Xilinx"]
+      synthetic: "Cortex Logic"
+    # CPU microarchitecture names (clear AMD tells)
+    - real: ["Zen 5", "Zen 4", "Zen 3", "Zen 2", "Zen+"]
+      synthetic: "Helix"
+    - real: ["Zen"]
+      synthetic: "Helix"
+      match: word
+    # First-name-only leaks in shareholder letters ("—Lisa", "Victor")
+    - real: ["Victor"]
+      synthetic: "Mark"
+      match: word
+    - real: ["Lisa"]
+      synthetic: "Carol"
+      match: word
+
+  APP:
+    - real: ["MoPub"]
+      synthetic: "MobConnect"
+    - real: ["Wurl"]
+      synthetic: "StreamLink"
+    - real: ["Twitter, Inc.", "Twitter"]
+      synthetic: "SocialCorp"
+    - real: ["Andrew Karam", "Karam"]
+      synthetic: "Eric Harmon"
+    - real: ["John Krystynak"]
+      synthetic: "William Park"
+    - real: ["Foroughi"]
+      synthetic: "Reyes"
+    # Subsidiary written lowercase in filings ("acquisition of adjust GmbH") —
+    # the case-sensitive whole-word rule protecting the common word "adjust"
+    # misses it; the two-word phrase is safe as ci substring.
+    - real: ["adjust GmbH"]
+      synthetic: "Calibrate GmbH"
+
+  GM:
+    # Distinctive multi-letter division/affiliate acronyms — safe as ci substring
+    - real: ["GMNA"]
+      synthetic: "MRDNA"
+    - real: ["GMSA"]
+      synthetic: "MRDSA"
+    - real: ["GMIO"]
+      synthetic: "MRDIO"
+    - real: ["GMCL"]
+      synthetic: "MRDCL"
+    - real: ["GMAC"]
+      synthetic: "MRDAC"
+    - real: ["GMIMCo"]
+      synthetic: "MMIMCo"
+    - real: ["SGMW"]
+      synthetic: "MDMW"
+    - real: ["SGMS"]
+      synthetic: "MRDMS"
+    # Short / ambiguous acronyms — whole-word, case-sensitive only
+    - real: ["GME"]
+      synthetic: "MRDE"
+      match: word
+    - real: ["GMF"]
+      synthetic: "MRDF"
+      match: word
+    - real: ["GMH"]
+      synthetic: "MRDH"
+      match: word
+    - real: ["GMAM"]
+      synthetic: "MMAM"
+      match: word
+    - real: ["SGM"]
+      synthetic: "MRDM"
+      match: word
+    # International brands
+    - real: ["Opel"]
+      synthetic: "Steele"
+    - real: ["Vauxhall"]
+      synthetic: "Averton"
+    # Domain + execs/board not in main map
+    - real: ["gmfinancial.com"]
+      synthetic: "meridianfinancial.com"
+    - real: ["Daniel Ammann"]
+      synthetic: "Alan Porter"
+    - real: ["Daniel F. Akerson", "Dan Akerson"]
+      synthetic: "Frederick Vance"
+    - real: ["Charles K. Stevens III", "Charles Stevens"]
+      synthetic: "Howard Banks"
+    - real: ["Thomas S. Timko"]
+      synthetic: "Gregory Lane"
+    - real: ["Nick S. Cyprus"]
+      synthetic: "Martin Doyle"
+    - real: ["Thomas M. Schoewe"]
+      synthetic: "Russell Hartman"
+    # Chinese JV brands (left intact in v2 — strong GM tells)
+    - real: ["Wuling"]
+      synthetic: "Tianlu"
+    - real: ["Baojun"]
+      synthetic: "Hexing"
+    - real: ["Jiefang"]
+      synthetic: "Dongsheng"
+    - real: ["Project Driveway"]
+      synthetic: "Project Skyline"
+    # Own-subsidiary abbreviation with G-for-GM initial ('[COMPANY] Operations,
+    # Inc. ("GTO")') — long form masked, abbreviation leaked the initial
+    - real: ["GTO"]
+      synthetic: "MTO"
+      match: word
+
+  KR:
+    - real: ["Ralphs"]
+      synthetic: "Pacific Select"
+    - real: ["Food 4 Less", "Foods Co"]
+      synthetic: "Value Select"
+    - real: ["Roundy's", "Roundy"]
+      synthetic: "Midwestern Markets"
+    - real: ["Dillon Companies", "Dillon Food Stores", "Dillon Stores"]
+      synthetic: "Plainfield Foods"
+    - real: ["J. Michael Schlotman", "Michael Schlotman", "Schlotman"]
+      synthetic: "Gregory Whitfield"
+    - real: ["Paul W. Heldman", "Heldman"]
+      synthetic: "Paul Donovan"
+    - real: ["McMullen"]
+      synthetic: "Dalton"
+    - real: ["Aitken"]
+      synthetic: "Albright"
+    # Own-division abbreviations with K-for-Kroger initial (Specialty Pharmacy,
+    # Precision Marketing, Personal Finance) — long forms masked, K leaked
+    - real: ["KSP"]
+      synthetic: "HSP"
+      match: word
+    - real: ["KPM"]
+      synthetic: "HPM"
+      match: word
+    - real: ["KPF"]
+      synthetic: "HPF"
+      match: word
+
+  MCK:
+    - real: ["Britt J. Vitalone"]
+      synthetic: "Helen Park"
+    # Own-subsidiary/segment abbreviations with M-for-McKesson initial — the
+    # long forms are masked but the defined abbreviations ('("MSH")' etc.)
+    # leaked the M. MRxTS additionally contains the real brand token "RxTS",
+    # so its synthetic must not (ARxTech, matching the "Apex RxTech" decoy).
+    - real: ["MRxTS", "MRXTS"]
+      synthetic: "ARxTech"
+      match: word
+    - real: ["MSH"]
+      synthetic: "ASH"
+      match: word
+    - real: ["MCC"]
+      synthetic: "ACC"
+      match: word
+    - real: ["MAH"]
+      synthetic: "AAH"
+      match: word
+    - real: ["MTS"]
+      synthetic: "ATS"
+      match: word
+    - real: ["MMS"]
+      synthetic: "AMS"
+      match: word
+    - real: ["MAS"]
+      synthetic: "AAS"
+      match: word
+    - real: ["MLS"]
+      synthetic: "ALS"
+      match: word
+    - real: ["MMC"]
+      synthetic: "AMC"
+      match: word
+    - real: ["MPTS"]
+      synthetic: "APTS"
+      match: word
+    - real: ["MRTS"]
+      synthetic: "ARTS"
+      match: word
+    - real: ["MAP"]
+      synthetic: "AAP"
+      match: word
+
+  SNDK:
+    # WD ticker embedded in compound XBRL element names + wdc.com domain
+    - real: ["WDC"]
+      synthetic: "FLCS"
+    # When-issued ticker (SNDKV) and its XBRL namespace prefix (sndkv1)
+    - real: ["SNDKV1"]
+      synthetic: "FLCSV1"
+    - real: ["SNDKV"]
+      synthetic: "FLCSV"
+    # Own-subsidiary abbreviations with S-for-SanDisk initial (Semiconductor
+    # Shanghai JV, SanDisk Technologies Inc.) — long forms masked, S leaked
+    - real: ["SDSS"]
+      synthetic: "FSSS"
+      match: word
+    - real: ["SDT"]
+      synthetic: "FST"
+      match: word
+
+  NFLX:
+    # Officers / board members left intact in v2 (found via blind-attack test)
+    - real: ["David Hyman"]
+      synthetic: "Brian Foster"
+    - real: ["Ann Mather"]
+      synthetic: "Susan Crane"
+    - real: ["Strive Masiyiwa"]
+      synthetic: "Daniel Okoro"
+    - real: ["Jay Hoag"]
+      synthetic: "Paul Rourke"
+    - real: ["Rodolphe Belmer"]
+      synthetic: "Henri Lacroix"
+    - real: ["Mathias Döpfner", "Mathias Dopfner"]
+      synthetic: "Lukas Brandt"
+    - real: ["Leslie Kilgore"]
+      synthetic: "Diane Mercer"
